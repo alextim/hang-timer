@@ -27,7 +27,9 @@ const buttonsWrapStyle = {
 
 const Workout = ({ currentItem, onClose }) => {
   const { name, work, rest, reps, recovery, sets } = currentItem;
-  const repDuration = parseInt(work) + parseInt(rest);
+  const workDuration = parseInt(work);
+  const restDuration = parseInt(rest);
+  const repDuration = workDuration + restDuration;
   const recoveryDuration = parseInt(recovery);
   const setDuration = repDuration * reps + recoveryDuration;
   const total = setDuration * sets - recoveryDuration;
@@ -59,7 +61,7 @@ const Workout = ({ currentItem, onClose }) => {
   } else {
     currentRep = ~~((time - currentSetStartTime) / repDuration) + 1;
     const currentRepStartTime = currentSetStartTime + (currentRep - 1) * repDuration;
-    isRest = time - currentRepStartTime > work;
+    isRest = time - currentRepStartTime > workDuration;
     if (isRest) {
       stateText = `REST: ${currentRepStartTime + repDuration - time}`;
     } else {
